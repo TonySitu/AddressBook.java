@@ -1,51 +1,63 @@
-# File: .github/workflows/build-and-deploy-jar-to-azure.yml
+# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
+# More GitHub Actions for Azure: https://github.com/Azure/actions
+
 name: Build and deploy JAR app to Azure Web App - MyAddressBook
 
 on:
   push:
-    branches: [ master ]
+    branches:
+      - master
   workflow_dispatch:
 
 jobs:
   build:
     runs-on: windows-latest
+    permissions:
+      contents: read #This is required for actions/checkout
+
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-java@v4
+
+      - name: Set up Java version
+        uses: actions/setup-java@v4
         with:
-          java-version: '17'
+          java-version: '21'
           distribution: 'microsoft'
-          cache: maven
 
       - name: Build with Maven
-        working-directory: lab
         run: mvn clean install
 
-      - name: Upload artifact
+      - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
           name: java-app
-          path: lab/target/*.jar
+          path: '${{ github.workspace }}/target/*.jar'
 
   deploy:
     runs-on: windows-latest
     needs: build
     permissions:
-      id-token: write
-      contents: read
+      id-token: write #This is required for requesting the JWT
+      contents: read #This is required for actions/checkout
+
     steps:
-      - uses: actions/download-artifact@v4
+      - name: Download artifact from build job
+        uses: actions/download-artifact@v4
         with:
           name: java-app
-
-      - uses: azure/login@v2
+      
+      - name: Login to Azure
+        uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_65B0DC695EB24C1091270C36ACE214B4 }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_B87588DE77974464A967C16C77DE4F3A }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_44AE12275BEC490695B0C250E6303EC3 }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_B9B75F253ADA4D529C8C8FB74D50A8C5 }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_A02082ECB5D34A37BCF3443E1DA4CD3C }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_2E9BDBF26A6F4B358B5B0D7F46ABD892 }}
 
-      - uses: azure/webapps-deploy@v3
+      - name: Deploy to Azure Web App
+        id: deploy-to-webapp
+        uses: azure/webapps-deploy@v3
         with:
           app-name: 'MyAddressBook'
           slot-name: 'Production'
           package: '*.jar'
+          
