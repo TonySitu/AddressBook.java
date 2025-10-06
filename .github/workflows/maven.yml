@@ -23,6 +23,7 @@ jobs:
         cache: maven
 
     - name: Build & test
+      working-directory: lab4
       run: mvn --batch-mode --update-snapshots verify   # one step is enough
 
     # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
