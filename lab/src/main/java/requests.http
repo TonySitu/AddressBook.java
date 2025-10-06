@@ -1,0 +1,22 @@
+### 1. Add a buddy to address-book #1
+POST http://localhost:8080/book/1/buddy
+Content-Type: application/json
+
+{
+  "name": "we",
+  "address": "jfdkasl;",
+  "phoneNumber": "123-473-7890"
+}
+
+### 2. See all books
+GET http://localhost:8080/book
+
+### 3. See all buddies that belong to book #1
+GET http://localhost:8080/book/1/buddy
+
+### 4. See all buddies
+GET http://localhost:8080/book/buddy
+
+### 5. Delete buddy in book 1
+DELETE http://localhost:8080/book/1/buddy/7
+
