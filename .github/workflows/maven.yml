@@ -18,6 +18,9 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: lab4
 
     steps:
     - uses: actions/checkout@v4
@@ -28,9 +31,11 @@ jobs:
         distribution: 'temurin'
         cache: maven
     - name: Build with Maven
+      working-directory: lab4
       run: mvn -B package --file pom.xml
       
     - name: Run the Maven verify phase
+      working-directory: lab4
       run: mvn --batch-mode --update-snapshots verify
 
     # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
