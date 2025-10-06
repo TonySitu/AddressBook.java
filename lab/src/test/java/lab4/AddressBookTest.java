@@ -16,6 +16,7 @@ public class AddressBookTest {
         book = new AddressBook();
         alice = new BuddyInfo("Alice", "streets", "123");
         bob = new BuddyInfo("Bob",   "basement", "456");
+        bob.setEmail("alice@bob.com");
     }
 
     @Test
@@ -31,6 +32,7 @@ public class AddressBookTest {
         book.addBuddy(alice);
         book.addBuddy(bob);
         book.removeBuddy(alice);
+        assertEquals("alice@bob.com", book.getBuddyList().get(0).getEmail());
         assertEquals(1, book.getAddressSize());
         assertFalse(bookContains(alice));
         assertTrue(bookContains(bob));
