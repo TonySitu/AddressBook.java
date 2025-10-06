@@ -9,10 +9,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    # defaults:        <-- REMOVE THIS BLOCK
-    #   run:
-    #     working-directory: lab4
-
     steps:
     - uses: actions/checkout@v4
     - name: Set up JDK 17
