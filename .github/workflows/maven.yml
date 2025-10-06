@@ -22,9 +22,4 @@ jobs:
       working-directory: lab         
       run: mvn --batch-mode --update-snapshots verify
 
-    - name: Build with Maven
-      working-directory: lab      # <-- folder that contains pom.xml
-      run: mvn clean install
-
-
       # https://github.com/TonySitu/AddressBook.java/tree/master
