@@ -23,5 +23,5 @@ jobs:
         cache: maven
 
     - name: Build & test
-      working-directory: lab
-      run: mvn --batch-mode --update-snapshots verify   # one step is enough
+      working-directory: lab         
+      run: mvn --batch-mode --update-snapshots verify
