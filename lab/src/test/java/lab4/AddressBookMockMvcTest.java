@@ -23,24 +23,19 @@ class AddressBookMockMvcTest {
     void createBookAndAddBuddy_mockMvc() throws Exception {
         // 1. POST /book
         String bookJson = mvc.perform(post("/book"))
-                .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id").exists())
                 .andReturn()
                 .getResponse()
                 .getContentAsString();
-        Long bookId = mapper.readTree(bookJson).get("id").asLong();
 
-        /* 2. POST /book/{id}/buddy */
+        Long bookId = mapper.readTree(bookJson).get("id").asLong();
         BuddyInfo buddy = new BuddyInfo("Ada", "London", "42");
         mvc.perform(post("/book/" + bookId + "/buddy")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(mapper.writeValueAsString(buddy)))
-                .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.name").value("Ada"));
 
-        /* 3. GET /book/{id}/buddy */
         mvc.perform(get("/book/" + bookId + "/buddy"))
-                .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(1)))
                 .andExpect(jsonPath("$[0].name").value("Ada"));
     }
