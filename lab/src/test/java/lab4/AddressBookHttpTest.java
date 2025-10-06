@@ -28,14 +28,12 @@ class AddressBookHttpTest {
         assertThat(bookResp.getStatusCode()).isEqualTo(HttpStatus.CREATED);
         Long bookId = bookResp.getBody().getId();
 
-        /* 2. POST /book/{id}/buddy  -> 201 */
         BuddyInfo buddy = new BuddyInfo("Linus", "Helsinki", "123");
         ResponseEntity<BuddyInfo> buddyResp =
                 rest.postForEntity(url("/book/" + bookId + "/buddy"), buddy, BuddyInfo.class);
         assertThat(buddyResp.getStatusCode()).isEqualTo(HttpStatus.CREATED);
         assertThat(buddyResp.getBody().getName()).isEqualTo("Linus");
 
-        /* 3. GET /book/{id}/buddy  -> 200 + 1 element */
         ResponseEntity<BuddyInfo[]> listResp =
                 rest.getForEntity(url("/book/" + bookId + "/buddy"), BuddyInfo[].class);
         assertThat(listResp.getStatusCode()).isEqualTo(HttpStatus.OK);
