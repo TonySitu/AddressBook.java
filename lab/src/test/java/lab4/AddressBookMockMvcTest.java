@@ -28,7 +28,7 @@ class AddressBookMockMvcTest {
                 .getResponse()
                 .getContentAsString();
 
-        Long bookId = mapper.readTree(bookJson).get("id").asLong();
+        Long bookId = (Long) mapper.readTree(bookJson).get("id").asLong();
         BuddyInfo buddy = new BuddyInfo("Ada", "London", "42");
         mvc.perform(post("/book/" + bookId + "/buddy")
                         .contentType(MediaType.APPLICATION_JSON)
