@@ -31,3 +31,14 @@ jobs:
       with:
         name: java-app
         path: lab/target/*.jar
+
+    - name: Download artifact
+      uses: actions/download-artifact@v4
+      with:
+        name: java-app
+
+    - name: Deploy to Azure Web App
+      uses: azure/webapps-deploy@v3
+      with:
+        app-name: 'MyAddressBook'
+        package: 'java-app/*.jar'
